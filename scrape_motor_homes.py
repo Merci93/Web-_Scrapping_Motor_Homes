@@ -4,7 +4,7 @@ import pandas as pd
 import requests as rq
 from bs4 import BeautifulSoup as bs
 
-########################################################################################################################################################################
+#########################################################################################################################################################################################
 
 def scrape_data(url, fuel_type):
     '''
@@ -40,7 +40,7 @@ def scrape_data(url, fuel_type):
             # Exception handling to skip items with missing fuel type in their specifications
             try:
                 if fuel_type == specifications['FUEL TYPE']:
-                    vehicle_name =  parse_item.find('div', {'class':'card__title'}).find('h1', {'itemprop': 'name'}).text.split(' ', 1)[1]
+                    vehicle_name =  parse_item.find('div', {'class':'card__title'}).find('h1', {'itemprop': 'name'}).text.replace(' ', '', 31)
                     stock_number = parse_item.find('div', {'class':'stock-num-prod-details'}).text.split(' ')[2]
                     status = parse_item.find('div', {'class':'product-card-line'}).find('h1', {'id': '#used-or-new'}).text
                     location = parse_item.find('span', {'class':'stock-results'}).find('b').text + ', ' + list(parse_item.find('span', {'class':'stock-results'}).stripped_strings)[1]
@@ -60,7 +60,7 @@ def scrape_data(url, fuel_type):
                                     'location': location,
                                     'fuel_type': fuel_type,
                                     'sleeps': int(sleeps),
-                                    'length': float(length),
+                                    'length (inches)': float(length),
                                     'price_low ($)': float(price_low)})
             except:
                 continue
@@ -77,9 +77,11 @@ def scrape_data(url, fuel_type):
     
     return df
 
+########################################################################################################################################################################################
+
 
 # Inputs
-# url = 'https://rv.campingworld.com/rvclass/motorhome-rvs'
+# url = https://rv.campingworld.com/rvclass/motorhome-rvs
 # fuel_type = Diesel
 
 url = str(input('Enter url: '))
@@ -87,4 +89,3 @@ fuel_type = str(input('Enter fuel type: '))
 
 # Run program
 scrape_data(url, fuel_type)
-
