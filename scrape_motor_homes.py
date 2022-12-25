@@ -4,14 +4,15 @@ import pandas as pd
 import requests as rq
 from bs4 import BeautifulSoup as bs
 
-#########################################################################################################################################################################################
+########################################################################################################################################################################################
 
 def scrape_data(url, fuel_type):
     '''
-     A function that gets the items in the given url
+     A function to scrape a web page: motor homes
      
      Args:
-         parse_url: url for the page to scrape
+         url: url for the page to scrape
+         fuel_type: Fuel type for the motor
     '''
       
     # list to hold extracted data
@@ -27,7 +28,7 @@ def scrape_data(url, fuel_type):
         
         # loop through each container item and get required details
         for i in range(1, len(container_frames) + 1, 1):
-            item_url_short = parse_page.find('div', {'id': 'pagination_container_'+str(i)}).find('div', {'class':'product-btns'}).find_all('a', {'clas':''})[1]['href']
+            item_url_short = parse_page.find('div', {'id': 'pagination_container_' + str(i)}).find('div', {'class':'product-btns'}).find_all('a', {'clas':''})[1]['href']
             item_url_full = 'https://rv.campingworld.com' + str(item_url_short) # url to item details
             response_item = rq.get(item_url_full)
             parse_item = bs(response_item.text, 'lxml')
@@ -36,22 +37,24 @@ def scrape_data(url, fuel_type):
             specifications_2 = [spec.find('h5').text for spec in tab_content] # list containing specifications of each item
             specifications = dict(zip(specifications_1, specifications_2))
             
+            
             # Get vehicle details if it meets gas type specification
             # Exception handling to skip items with missing fuel type in their specifications
             try:
                 if fuel_type == specifications['FUEL TYPE']:
-                    vehicle_name =  parse_item.find('div', {'class':'card__title'}).find('h1', {'itemprop': 'name'}).text.replace(' ', '', 31)
+                    vehicle_name =  parse_item.find('div', {'class':'card__title'}).find('h1', {'itemprop': 'name'}).text.split(' ', 1)[1].replace(' ', '', 31)
                     stock_number = parse_item.find('div', {'class':'stock-num-prod-details'}).text.split(' ')[2]
                     status = parse_item.find('div', {'class':'product-card-line'}).find('h1', {'id': '#used-or-new'}).text
                     location = parse_item.find('span', {'class':'stock-results'}).find('b').text + ', ' + list(parse_item.find('span', {'class':'stock-results'}).stripped_strings)[1]
                     price_low = parse_item.find('span', {'class':'price-info low-price'}).text[1:].replace(',', '')
+                    sleeps = specifications['SLEEPS']
+                    length = specifications['LENGTH'][:5]
+                    
+                    # condition for horse power
                     if int(price_low) > 300000:
                         horse_power = specifications['HORSEPOWER']
                     else:
-                        horse_power = ''
-                    fuel = fuel_type
-                    sleeps = specifications['SLEEPS']
-                    length = specifications['LENGTH'][:5]
+                        horse_power = 'N/A'
 
                     #append extracted data to list of dictionaries
                     df_list.append({'vehicle_name': vehicle_name,
@@ -61,7 +64,8 @@ def scrape_data(url, fuel_type):
                                     'fuel_type': fuel_type,
                                     'sleeps': int(sleeps),
                                     'length (inches)': float(length),
-                                    'price_low ($)': float(price_low)})
+                                    'price_low ($)': float(price_low),
+                                    'horse_power': horse_power})
             except:
                 continue
     
@@ -77,10 +81,9 @@ def scrape_data(url, fuel_type):
     
     return df
 
-########################################################################################################################################################################################
+#######################################################################################################################################################################################
 
-
-# Inputs
+# inputs
 # url = https://rv.campingworld.com/rvclass/motorhome-rvs
 # fuel_type = Diesel
 
