@@ -21,7 +21,7 @@ The collected data is saved as a csv file using the fuel type and the string 'RV
 - BeautifulSoup (bs4)
 
 ## Files description
-- **scrape (.py and .ipynb)**: Scrapes the above listed information about RV motors from the webpage using the defined fuel type.
+- **scrape (.py and .ipynb)**: Scrapes the above listed information about RV motors from the webpage using the defined fuel type. The _.py_ file can be run via anaconda command line interface (in Windows) or terminal (in Linux/Ubuntu), and the _.ipynb_ file on jupyter notebook or jupyter lab.
 
 ## Approach
 - A function _scrape_data_ taking two arguments: _url_ and _fuel type_.
