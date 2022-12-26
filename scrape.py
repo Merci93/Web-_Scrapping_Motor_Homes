@@ -86,7 +86,7 @@ def scrape_data(url, fuel_type):
     df.drop_duplicates(inplace = True)
     
     # save dataframe as csv
-    df.to_csv(fuel_type + '_RV_Motors.csv', index = False) 
+    df.to_csv(fuel_type + '_RV_Motorhomes.csv', index = False) 
     
     return df
 
