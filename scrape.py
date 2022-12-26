@@ -35,7 +35,7 @@ def scrape_data(url, fuel_type):
             tab_content = parse_item.find('div', {'class':'tab-content'}).find_all('div', {'class':'oneSpec clearfix'}) # Get tab container with specifications
             specifications_1 = [spec.find('h4').text for spec in tab_content] # list containing specification title
             specifications_2 = [spec.find('h5').text for spec in tab_content] # list containing specifications of each item
-            specifications = dict(zip(specifications_1, specifications_2))
+            specifications = dict(zip(specifications_1, specifications_2)) # dictionary containing motor specifications
 
             # Get vehicle details if it meets gas type specification
             # Exception handling to skip items with missing fuel type in their specifications
@@ -94,6 +94,7 @@ def scrape_data(url, fuel_type):
 #######################################################################################################################################################################################
 
 # inputs
+
 # url = 'https://rv.campingworld.com/rvclass/motorhome-rvs'
 # fuel_type = 'Diesel'
 # fuel_type = 'Gas'
