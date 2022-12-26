@@ -22,7 +22,6 @@ The collected data is saved as a csv file using the fuel type and the string 'RV
 
 ## Files description
 - **scrape (.py and .ipynb)**: Scrapes the above listed information about RV motors from the webpage using the defined fuel type.
-- **scrape_diesel (.py and .ipynb)**: An anomaly was detected, cause unknown, probably a website flaw but the diesel RV motors had issues with the specification details, thus warranting this modification only for the diesel RV motors.
 
 ## Approach
 - A function _scrape_data_ taking two arguments: _url_ and _fuel type_.
@@ -36,4 +35,4 @@ The collected data is saved as a csv file using the fuel type and the string 'RV
 - Once the container on a current page is exhausted, the loop moves to the next page. This process continues until the last page when the loop exits. The collected data is transformed into a dataframe using _pandas.DataFrame_ method and finally saved as a _csv_ file using the _.to_csv_ pandas method. The file is saved in the same location as the script.
 - The dataframe is returned if jupyter notebook or jupyter Lab was used to run the .ipynb script. If run on command line with the .py script, the saved csv file will be accessible in the same location as the script.
 
-### PS: This approach can work for any web scraping activity but the codes in the scripts provided has been tailored to suit the web page being scraped and also the requirements of the task.
+#### PS: This approach can work for any web scraping activity but the codes in the scripts provided has been tailored to suit the web page being scraped and also the requirements of the task.
