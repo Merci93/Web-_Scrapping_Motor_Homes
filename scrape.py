@@ -33,11 +33,10 @@ def scrape_data(url, fuel_type):
             response_item = rq.get(item_url_full)
             parse_item = bs(response_item.text, 'lxml')
             tab_content = parse_item.find('div', {'class':'tab-content'}).find_all('div', {'class':'oneSpec clearfix'}) # Get tab container with specifications
-            specifications_1 = [spec.find('h4').text for spec in tab_content] # list cont
+            specifications_1 = [spec.find('h4').text for spec in tab_content] # list containing specification title
             specifications_2 = [spec.find('h5').text for spec in tab_content] # list containing specifications of each item
             specifications = dict(zip(specifications_1, specifications_2))
-            
-            
+
             # Get vehicle details if it meets gas type specification
             # Exception handling to skip items with missing fuel type in their specifications
             try:
@@ -46,14 +45,24 @@ def scrape_data(url, fuel_type):
                     stock_number = parse_item.find('div', {'class':'stock-num-prod-details'}).text.split(' ')[2]
                     status = parse_item.find('div', {'class':'product-card-line'}).find('h1', {'id': '#used-or-new'}).text
                     location = parse_item.find('span', {'class':'stock-results'}).find('b').text + ', ' + list(parse_item.find('span', {'class':'stock-results'}).stripped_strings)[1]
-                    price_low = parse_item.find('span', {'class':'price-info low-price'}).text[1:].replace(',', '')
-                    sleeps = specifications['SLEEPS']
-                    length = specifications['LENGTH'][:5]
+                    sales_price = parse_item.find('span', {'class':'price-info low-price'}).text[1:].replace(',', '')
+                    fuel_type =  specifications['FUEL TYPE']
                     
-                    # condition for horse power
-                    if int(price_low) > 300000:
-                        horse_power = specifications['HORSEPOWER']
-                    else:
+                    # Exception handling for cases of missing specification item
+                    try:
+                        sleeps = specifications['SLEEPS']
+                    except:
+                        sleeps = 'N/A'
+                    try:
+                        length = specifications['LENGTH'][:5]
+                    except:
+                        length = 'N/A'
+                    try:
+                        if int(sales_price) > 300000:
+                            horse_power = specifications['HORSEPOWER']
+                        else:
+                            horse_power = 'N/A'
+                    except:
                         horse_power = 'N/A'
 
                     #append extracted data to list of dictionaries
@@ -64,14 +73,14 @@ def scrape_data(url, fuel_type):
                                     'fuel_type': fuel_type,
                                     'sleeps': int(sleeps),
                                     'length (inches)': float(length),
-                                    'sale_price ($)': float(price_low),
+                                    'sale_price ($)': float(sales_price),
                                     'horse_power': horse_power})
             except:
                 continue
     
     # transform extracted data into a data frame
     df = pd.DataFrame(df_list, columns = ['vehicle_name', 'stock_number', 'status', 'location','fuel_type', 'sleeps',
-                                          'length', 'sale_price ($)', 'horse_power'])
+                                          'length (inches)', 'sale_price ($)', 'horse_power'])
     
     # drop duplicates from the data set if exists
     df.drop_duplicates(inplace = True)
@@ -81,12 +90,15 @@ def scrape_data(url, fuel_type):
     
     return df
 
+
 #######################################################################################################################################################################################
 
 # inputs
-# url = https://rv.campingworld.com/rvclass/motorhome-rvs
-# fuel_type = Diesel
+# url = 'https://rv.campingworld.com/rvclass/motorhome-rvs'
+# fuel_type = 'Diesel'
+# fuel_type = 'Gas'
 
+print("Enter required information without enclosing them in quotes('')")
 url = str(input('Enter url: '))
 fuel_type = str(input('Enter fuel type: '))
 
