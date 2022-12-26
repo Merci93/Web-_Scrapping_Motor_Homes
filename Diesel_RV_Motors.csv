@@ -1,0 +1,16 @@
+vehicle_name,stock_number,status,location,fuel_type,sleeps,length (inches),sale_price ($),horse_power
+2002 FLEETWOOD EXPEDITION 36T ,2013011,Used,"Camping World of Minneapolis, Monticello, MN",Diesel,5,36.42,38499.0,N/A
+2017 THOR GEMINI 23TR ,2137467P,Used,"Camping World of Jackson Mississippi, Jackson, MS",Diesel,4,23.5,61999.0,N/A
+2008 TRAVEL SUPREME TRAVEL SUPREME 42DL14 ,2113711,Used,"Camping World of Sherman, Sherman, TX",Diesel,4,42.5,92999.0,N/A
+2000 NATIONAL RV TRADEWINDS 7370 (300HP) ,2014925A,Used,"Camping World of Reno, Reno, NV",Diesel,4,33.0,29399.0,N/A
+2006 DAMON ASTORIA 3679 ,2179155,Used,"Camping World of Nashville, Nashville, TN",Diesel,7,38.0,49999.0,N/A
+2009 COACH HOUSE PLATINUM II 241XL ,2182626P,Used,"Camping World of Raleigh, Garner, NC",Diesel,3,25.58,53499.0,N/A
+2009 HOLIDAY RAMBLER VACATIONER 36SFD ,2161664,Used,"Camping World of Nashville, Nashville, TN",Diesel,4,37.5,59999.0,N/A
+2009 ITASCA NAVION 24DL ,2178973,Used,"Camping World of Conway, Center Conway, NH",Diesel,2,25.0,60499.0,N/A
+2008 WINNEBAGO VIEW 24J ,2204010,Used,"Camping World of Lubbock, Lubbock, TX",Diesel,4,25.0,65999.0,N/A
+2010 ITASCA REYO 25R ,2193644,Used,"Camping World of Hampton Roads, Newport News, VA",Diesel,5,29.83,69999.0,N/A
+2016 THOR GEMINI 23TR ,2203479P,Used,"Camping World of Buffalo, Hamburg, NY",Diesel,3,24.0,69999.0,N/A
+2017 THOR GEMINI 23TB ,2151804,Used,"Camping World of Dothan, Dothan, AL",Diesel,4,23.5,70499.0,N/A
+2009 GULF STREAM CONQUEST B-TOURNG CRUISER 5232 ,2129754,Used,"Camping World of Springfield, Strafford, MO",Diesel,3,24.75,69999.0,N/A
+2014 FOREST RIVER SOLERA 24R ,2160891,Used,"Camping World of Tampa, Dover, FL",Diesel,5,24.83,73399.0,N/A
+2011 WINNEBAGO VIA 25R ,2161800,Used,"Camping World of Biloxi, Biloxi, MS",Diesel,6,25.42,73999.0,N/A
