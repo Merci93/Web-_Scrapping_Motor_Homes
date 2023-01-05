@@ -24,7 +24,8 @@ The collected data is saved as a csv file using the fuel type and the string 'RV
 - **scrape (.py and .ipynb)**: Scrapes the above listed information about RV motors from the webpage using the defined fuel type. The _.py_ file can be run via anaconda command line interface (in Windows) or terminal (in Linux/Ubuntu), and the _.ipynb_ file on jupyter notebook or jupyter lab.
 
 ## Approach
-- A function _scrape_data_ taking two arguments: _url_ and _fuel type_.
+- Created a function _get_page_ that gets a page using _request_, parse the page as _lxml_ file with _BeautifulSoup_ and returns the parsed page.
+- Main function _scrape_data_ taking two arguments: _url_ and _fuel type_.
 - Created an empty list to hold extracted data.
 - _For loop_ iterating through the pages, in this case, there are 20 pages numbered from 1 to 20. The loop modifies the page by changing the page number, hence advancing to the next page.
 - Page data is collected using _python request get_ method and parsed as _lxml_ file using _BeautifulSoup_.
