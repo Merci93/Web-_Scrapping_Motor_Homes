@@ -6,6 +6,19 @@ from bs4 import BeautifulSoup as bs
 
 ########################################################################################################################################################################################
 
+def get_page(page_url):
+    '''
+    A function to save a webpage as HTML file, parse and return parsed page.
+
+    Args:
+        page_url: url of the page.
+    '''
+    response = rq.get(page_url)
+    parse_page = bs(response.text, 'lxml')
+
+    return parse_page
+
+
 def scrape_data(url, fuel_type):
     '''
      A function to scrape a web page: motor homes
@@ -20,9 +33,8 @@ def scrape_data(url, fuel_type):
     
     # Iterate through all pages (20 pages)
     for i in range(1, 21): 
-        page_url = url + '?page=' + str(i)  
-        response = rq.get(page_url)
-        parse_page = bs(response.text, 'lxml')
+        page_url = url + '?page=' + str(i)
+        parse_page = get_page(page_url) # function call to get page
         search_body = parse_page.find('div', {'id': 'content-search__body'}) # Get the section with container frames
         container_frames = re.findall('id="pagination_container_\w+"', str(search_body)) # regular expression to find all item containers
         
@@ -30,8 +42,7 @@ def scrape_data(url, fuel_type):
         for i in range(1, len(container_frames) + 1, 1):
             item_url_short = parse_page.find('div', {'id': 'pagination_container_' + str(i)}).find('div', {'class':'product-btns'}).find_all('a', {'clas':''})[1]['href']
             item_url_full = 'https://rv.campingworld.com' + str(item_url_short) # url to item details
-            response_item = rq.get(item_url_full)
-            parse_item = bs(response_item.text, 'lxml')
+            parse_item = get_page(item_url_full) # function call to get item page
             tab_content = parse_item.find('div', {'class':'tab-content'}).find_all('div', {'class':'oneSpec clearfix'}) # Get tab container with specifications
             specifications_1 = [spec.find('h4').text for spec in tab_content] # list containing specification title
             specifications_2 = [spec.find('h5').text for spec in tab_content] # list containing specifications of each item
@@ -40,13 +51,12 @@ def scrape_data(url, fuel_type):
             # Get vehicle details if it meets gas type specification
             # Exception handling to skip items with missing fuel type in their specifications
             try:
-                if fuel_type == specifications['FUEL TYPE']:
+                if fuel_type.casefold() == specifications['FUEL TYPE'].casefold():
                     vehicle_name =  parse_item.find('div', {'class':'card__title'}).find('h1', {'itemprop': 'name'}).text.split(' ', 1)[1].replace(' ', '', 31)
                     stock_number = parse_item.find('div', {'class':'stock-num-prod-details'}).text.split(' ')[2]
                     status = parse_item.find('div', {'class':'product-card-line'}).find('h1', {'id': '#used-or-new'}).text
                     location = parse_item.find('span', {'class':'stock-results'}).find('b').text + ', ' + list(parse_item.find('span', {'class':'stock-results'}).stripped_strings)[1]
                     sales_price = parse_item.find('span', {'class':'price-info low-price'}).text[1:].replace(',', '')
-                    fuel_type =  specifications['FUEL TYPE']
                     
                     # Exception handling for cases of missing specification item
                     try:
@@ -95,12 +105,10 @@ def scrape_data(url, fuel_type):
 
 # inputs
 
-# url = 'https://rv.campingworld.com/rvclass/motorhome-rvs'
 # fuel_type = 'Diesel'
 # fuel_type = 'Gas'
 
-print("Enter required information without enclosing them in quotes('')")
-url = str(input('Enter url: '))
+url = 'https://rv.campingworld.com/rvclass/motorhome-rvs'
 fuel_type = str(input('Enter fuel type: '))
 
 # Run program
