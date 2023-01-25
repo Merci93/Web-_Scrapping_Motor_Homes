@@ -37,6 +37,7 @@ The data captured include:
 - A `for loop` is used to iterate through the container frames collecting the data for each MotorHome: name, status, price, location, length, sleeps and stock number.
 - For MotorHomes with price above $300,000, the `view details` is clicked and the MotorHome horse power is collected from the motor specifications.
 - Once the container on a current page is exhausted, the loop moves to the next page. This process continues until the last page when the loop terminates. The collected data is transformed into a dataframe using `pandas.DataFrame` method, duplicates dropped and finally saved as a `csv` file using the `.to_csv` pandas method. The file is saved in the same location as the script.
+- `time.sleep()` is employed to allow page to load before scraping data or clicking an item.
 
 >PS: This approach can work for any web scraping activity but the codes in the scripts provided has been tailored to suit the web page being scraped and also the requirements of the task. Also the time taken to complete extracting, transforming, loading data and saving CSV file is dependent on the number of pages to scrape, data to be collected, and system capacity.
 
