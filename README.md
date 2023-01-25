@@ -26,7 +26,7 @@ The data captured include:
 ## Files description
 - **scrape (.py and .ipynb)**: Scrapes the above listed information about RV motors from the webpage. The _.py_ file can be run via anaconda command line interface (in Windows) or terminal (in Linux/Ubuntu), and the _.ipynb_ file on jupyter notebook or jupyter lab.
 - **chromedriver.exe**: A tool for automated testing of webapps, with capabilities for page navigations and user input execution. [Download Chrome Webdriver](https://sites.google.com/chromium.org/driver/downloads?authuser=0).
->NOTE: The chromedriver.exe should be downloaded and stored in any location of your choice, preferably same location as the scripts (.py and .ipynb) and the path copied into `driver_path` in the scripts. The driver helps for speedy execution and collection of data. The section `driver = webdriver.Chrome()` perform same task as the chromedriver.exe, but with lengthy execution time.
+>NOTE: The chromedriver.exe should be downloaded and stored in any location of your choice, preferably same location as the scripts (.py and .ipynb) and the path copied into `driver_path` in the scripts. The driver helps for speedy execution and collection of data. The section `driver = webdriver.Chrome()` performs same task as the chromedriver.exe, but with lengthy execution time.
 
 ## Approach
 - Main function _scrape_data_ taking one argument: `url`.
