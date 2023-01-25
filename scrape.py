@@ -12,7 +12,7 @@ from bs4 import BeautifulSoup as bs
 
 def scrape_data(url):
     """
-    A script to scrape data from given url.
+    Scrapes data from given url.
 
     Keyword arguments:
     url: url link to the page.
