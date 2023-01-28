@@ -1,23 +1,20 @@
-import re
-import lxml
-import time
-import pandas as pd
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
-from selenium.common.exceptions import NoSuchElementException
-from bs4 import BeautifulSoup as bs
 
+if __name__ == '__main__':
 
-def scrape_data(url):
-    """
-    Scrapes data from given url.
+    import re
+    import lxml
+    import time
+    import pandas as pd
+    from selenium import webdriver
+    from selenium.webdriver.common.by import By
+    from selenium.webdriver.chrome.options import Options
+    from selenium.webdriver.chrome.service import Service
+    from selenium.common.exceptions import NoSuchElementException
+    from bs4 import BeautifulSoup as bs
 
-    Keyword arguments:
-    url: url link to the page.
-    """
-    
+    #url = 'https://rv.campingworld.com/rvclass/motorhome-rvs'
+    url = str(input('Enter URL: '))
+
     #driver = webdriver.Chrome()
     #driver_path = 'Add the path to chrome driver here'
     driver_path = 'C:/Users/David Ugochi Asogwa/Documents/Folders/GitHub/Web_Scrapping_Motor_Homes/chromedriver.exe'
@@ -120,9 +117,5 @@ def scrape_data(url):
 
     # Save dataframe as CSV.
     df.to_csv('RV_MotorHomes.csv', index = False)
+    df
 
-
-if __name__ == '__main__':
-    #url = 'https://rv.campingworld.com/rvclass/motorhome-rvs'
-    url = str(input('Enter URL: '))
-    scrape_data(url)
