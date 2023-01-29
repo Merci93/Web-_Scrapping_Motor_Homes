@@ -1,24 +1,26 @@
-if __name__ == '__main__':
+import re
+import lxml
+import time
+import pandas as pd
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from selenium.common.exceptions import NoSuchElementException
+from bs4 import BeautifulSoup as bs
 
-    import re
-    import lxml
-    import time
-    import pandas as pd
-    from selenium import webdriver
-    from selenium.webdriver.common.by import By
-    from selenium.webdriver.chrome.options import Options
-    from selenium.webdriver.chrome.service import Service
-    from selenium.common.exceptions import NoSuchElementException
-    from bs4 import BeautifulSoup as bs
+def scrape_data(url):
+    """
+    Scrapes data from the given url.
 
-    #url = 'https://rv.campingworld.com/rvclass/motorhome-rvs'
-    url = str(input('Enter URL: '))
-
+    Keyword Arguments:
+    url: URL to the webpage to be scraped.
+    """
     #driver = webdriver.Chrome()
     #driver_path = 'Add the path to chrome driver here'
     driver_path = 'C:/Users/David Ugochi Asogwa/Documents/Folders/GitHub/Web_Scrapping_Motor_Homes/chromedriver.exe'
     driver = webdriver.Chrome(service = Service(driver_path))
-    
+
     # Get URL
     # Select RV class and fuel type: Diesel
     driver.get(url)
@@ -102,19 +104,33 @@ if __name__ == '__main__':
         except NoSuchElementException:
             break         # Break at the end of the page.
 
-    # Close driver.
     driver.close()
 
+    return df_list
+
+
+def create_df(list_dict):
+    """
+    A function that creates a dataframe from list of dictionary
+
+    Keyword arguments:
+    dataframe_dict: A list containing dictionary of items
+    """
+
     # Transform extracted data into a data frame.
-    df = pd.DataFrame(df_list, columns = ['vehicle_name', 'stock_number', 'status', 'location','fuel_type', 'sleeps',
+    df = pd.DataFrame(list_dict, columns = ['vehicle_name', 'stock_number', 'status', 'location','fuel_type', 'sleeps',
                                           'length', 'sales_price (USD)', 'horse_power'])
 
-    #df.to_csv('RV_MotorHomes_with_possible_duplicates.csv', index = False)
-    
+    df.to_csv('RV_MotorHomes_with_possible_duplicates.csv', index = False)
+
     # Drop duplicates from the data set.
     df.drop_duplicates(inplace = True)
 
     # Save dataframe as CSV.
     df.to_csv('RV_MotorHomes.csv', index = False)
-    df
 
+
+if __name__ == '__main__':
+    #url = 'https://rv.campingworld.com/rvclass/motorhome-rvs'
+    url = str(input('Enter URL: '))
+    create_df(scrape_data(url))
